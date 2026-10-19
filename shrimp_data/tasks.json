@@ -1,0 +1,388 @@
+{
+  "tasks": [
+    {
+      "id": "b2bace9f-a652-4921-a085-681f5bd61e7e",
+      "name": "[Phase 1] NestJS 잔재 정리 및 Next.js 15 프로젝트 생성",
+      "description": "Starter Kit(NestJS) 코드를 제거하고 Next.js 15(App Router) + TypeScript strict 프로젝트로 교체한다. .claude/, .mcp.json, docs/, CLAUDE.md, shrimp-rules.md, shrimp_data/는 유지한다.",
+      "status": "pending",
+      "dependencies": [],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "package.json",
+          "type": "TO_MODIFY",
+          "description": "Next.js 의존성으로 교체"
+        },
+        {
+          "path": "src/",
+          "type": "TO_MODIFY",
+          "description": "NestJS 코드 제거 후 app 디렉터리 생성"
+        },
+        {
+          "path": "tsconfig.json",
+          "type": "TO_MODIFY",
+          "description": "strict, @/ alias"
+        }
+      ],
+      "implementationGuide": "src/, test/, nest 관련 설정과 의존성을 제거 → create-next-app(TypeScript, App Router, src 디렉터리, @/ alias)으로 생성 → package.json scripts(dev/build/start/lint) 정리",
+      "verificationCriteria": "npm run dev 실행 시 기본 페이지가 열리고, NestJS 관련 파일·의존성이 남아있지 않다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "52b519ea-a531-4b4b-a9c7-099198f93c76",
+      "name": "[Phase 1] Tailwind CSS · shadcn/ui · 코드 품질 도구 설정",
+      "description": "Tailwind CSS, shadcn/ui, Lucide React, ESLint, Prettier를 설정한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "b2bace9f-a652-4921-a085-681f5bd61e7e"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "components.json",
+          "type": "CREATE",
+          "description": "shadcn 설정"
+        },
+        {
+          "path": "src/components/ui/",
+          "type": "CREATE",
+          "description": "shadcn 컴포넌트"
+        }
+      ],
+      "implementationGuide": "shadcn init → button/card/badge/input 기본 컴포넌트 추가 → ESLint(next/core-web-vitals)+Prettier 연동",
+      "verificationCriteria": "npm run lint, npm run build 통과 및 shadcn Button이 렌더링된다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "28e6133e-7645-4c2a-86ea-a6e70a0c357e",
+      "name": "[Phase 1] 폴더 구조 · 루트 레이아웃 · 환경 변수 템플릿",
+      "description": "ROADMAP에 정의된 폴더 구조와 루트 레이아웃(Header/Footer/Container), .env.example을 만든다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "52b519ea-a531-4b4b-a9c7-099198f93c76"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/layout.tsx",
+          "type": "CREATE",
+          "description": "루트 레이아웃"
+        },
+        {
+          "path": "src/components/layout/",
+          "type": "CREATE",
+          "description": "Header, Footer"
+        },
+        {
+          "path": ".env.example",
+          "type": "TO_MODIFY",
+          "description": "Notion 환경 변수"
+        }
+      ],
+      "implementationGuide": "src/app, components/{ui,layout,docs}, lib/notion, types 생성 → app/layout.tsx에 Header/Footer 배치 → .env.example에 NOTION_API_KEY, NOTION_DATABASE_ID",
+      "verificationCriteria": "모든 페이지에 Header/Footer가 표시되고 폴더 구조가 ROADMAP과 일치한다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "eba8e679-2739-4941-ba99-205f0c7d8839",
+      "name": "[Phase 2] 공통 타입 정의",
+      "description": "PRD의 Notion Documents/Categories 스키마에 맞는 도메인 타입을 정의한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "28e6133e-7645-4c2a-86ea-a6e70a0c357e"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "src/types/doc.ts",
+          "type": "CREATE",
+          "description": "도메인 타입"
+        }
+      ],
+      "implementationGuide": "Doc, DocSummary, Category, Tag, Author, DocStatus 타입을 src/types/doc.ts에 정의",
+      "verificationCriteria": "타입 체크 통과, PRD 데이터 구조 표의 필수 필드가 모두 타입에 반영되어 있다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "a3e39cb1-b6e5-43fe-8ec1-615d7869b6c2",
+      "name": "[Phase 2] Notion API 공통 모듈 구현",
+      "description": "모든 페이지가 재사용할 Notion API 조회 계층을 구현한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "eba8e679-2739-4941-ba99-205f0c7d8839"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "src/lib/notion/",
+          "type": "CREATE",
+          "description": "client, queries, mapper"
+        },
+        {
+          "path": "src/lib/constants.ts",
+          "type": "CREATE",
+          "description": "ISR 상수"
+        }
+      ],
+      "implementationGuide": "@notionhq/client 설치 → lib/notion/client.ts → getPublishedDocs(), getDocBySlug(slug), getCategories() → Notion 응답을 도메인 타입으로 변환하는 mapper → REVALIDATE_SECONDS=30 상수 → 테스트 Notion DB에 예제 문서 4건 작성",
+      "verificationCriteria": "임시 페이지에서 Published 문서 목록이 타입 안전하게 조회되고, API 키 누락 시 명확한 에러가 발생한다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "2ad6beb1-f2d5-433d-8cdf-66a92439cd1e",
+      "name": "[Phase 2] 공통 UI 컴포넌트 구현",
+      "description": "목록·상세·검색에서 공통으로 쓰는 UI 컴포넌트를 만든다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "eba8e679-2739-4941-ba99-205f0c7d8839"
+        },
+        {
+          "taskId": "52b519ea-a531-4b4b-a9c7-099198f93c76"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/docs/",
+          "type": "CREATE",
+          "description": "공통 문서 컴포넌트"
+        }
+      ],
+      "implementationGuide": "DocCard, CategoryBadge, TagChip, MetaInfo(작성자·버전·수정일), EmptyState, Skeleton 구현 (shadcn 래핑)",
+      "verificationCriteria": "각 컴포넌트가 목 데이터로 단독 렌더링된다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "84f19631-7d2b-4bd4-9c38-a4efa3410614",
+      "name": "[Phase 3] 홈 페이지 구현",
+      "description": "인기 카테고리와 최근 업데이트 문서 6개를 보여주는 홈을 구현한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "a3e39cb1-b6e5-43fe-8ec1-615d7869b6c2"
+        },
+        {
+          "taskId": "2ad6beb1-f2d5-433d-8cdf-66a92439cd1e"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "홈"
+        }
+      ],
+      "implementationGuide": "app/page.tsx에서 getCategories(), getPublishedDocs() 사용 → CategoryBadge, DocCard로 렌더링, revalidate 적용",
+      "verificationCriteria": "홈에서 실제 Notion 문서 6개와 카테고리가 표시된다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "b9a06bee-a701-4ae3-9630-c74e95df382d",
+      "name": "[Phase 3] 문서 목록 (정렬 · 페이지네이션)",
+      "description": "최근 수정순 문서 목록과 페이지네이션을 구현한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "a3e39cb1-b6e5-43fe-8ec1-615d7869b6c2"
+        },
+        {
+          "taskId": "2ad6beb1-f2d5-433d-8cdf-66a92439cd1e"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/docs/page.tsx",
+          "type": "CREATE",
+          "description": "문서 목록"
+        }
+      ],
+      "implementationGuide": "app/docs/page.tsx → UpdatedDate 내림차순, 페이지당 10개, searchParams 기반 페이지 이동",
+      "verificationCriteria": "Notion에 문서를 추가하면 30초 내 목록에 반영되고 페이지 이동이 동작한다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "f6adda59-0aa9-40c5-9a75-1fe4560b3f91",
+      "name": "[Phase 3] 문서 상세 페이지 (마크다운 · 하이라이팅 · 목차)",
+      "description": "Notion 본문을 렌더링하는 문서 상세 페이지를 구현한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "a3e39cb1-b6e5-43fe-8ec1-615d7869b6c2"
+        },
+        {
+          "taskId": "2ad6beb1-f2d5-433d-8cdf-66a92439cd1e"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/docs/[slug]/page.tsx",
+          "type": "CREATE",
+          "description": "문서 상세"
+        },
+        {
+          "path": "src/components/docs/Toc.tsx",
+          "type": "CREATE",
+          "description": "목차"
+        }
+      ],
+      "implementationGuide": "app/docs/[slug]/page.tsx → getDocBySlug → Notion 블록을 마크다운으로 변환(notion-to-md) → react-markdown + rehype-highlight → 헤딩 기반 TOC → MetaInfo",
+      "verificationCriteria": "제목·코드블록 하이라이팅·목차가 정상 렌더링되고, 없는 slug는 404로 처리된다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "bee18b30-6467-4b3f-9a4d-1bebce2bf61b",
+      "name": "[Phase 3] 카테고리 페이지 및 에러 · 로딩 처리",
+      "description": "카테고리별 문서 목록과 공통 에러/로딩/404 화면을 구현한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "a3e39cb1-b6e5-43fe-8ec1-615d7869b6c2"
+        },
+        {
+          "taskId": "2ad6beb1-f2d5-433d-8cdf-66a92439cd1e"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/category/[name]/page.tsx",
+          "type": "CREATE",
+          "description": "카테고리"
+        },
+        {
+          "path": "src/app/not-found.tsx",
+          "type": "CREATE",
+          "description": "404"
+        }
+      ],
+      "implementationGuide": "app/category/[name]/page.tsx → 카테고리 필터 + 문서 수 → app/not-found.tsx, error.tsx, loading.tsx(Skeleton)",
+      "verificationCriteria": "카테고리 클릭 시 해당 문서만 보이며 에러/로딩 상태가 표시된다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "773ccedb-838b-45c4-a082-ee4fa0f12d0f",
+      "name": "[Phase 4] 전체 검색 및 태그 · 버전 필터",
+      "description": "제목·요약·태그 기반 클라이언트 검색과 태그 다중/버전 필터를 구현한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "b9a06bee-a701-4ae3-9630-c74e95df382d"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/search/page.tsx",
+          "type": "CREATE",
+          "description": "검색"
+        }
+      ],
+      "implementationGuide": "app/search/page.tsx → 서버에서 문서 목록 전달 → 클라이언트 컴포넌트에서 검색어·필터 상태로 필터링, Header 검색창 연결",
+      "verificationCriteria": "검색 결과가 500ms 이내 표시되고 태그 여러 개 조합 필터가 동작한다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "56b4b066-a888-4d8b-809e-08cc28ecf452",
+      "name": "[Phase 4] 관련 문서 추천 · 다크모드 · 반응형 개선",
+      "description": "관련 문서 추천, 다크모드, 반응형 레이아웃을 완성한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "f6adda59-0aa9-40c5-9a75-1fe4560b3f91"
+        },
+        {
+          "taskId": "84f19631-7d2b-4bd4-9c38-a4efa3410614"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/layout/ThemeToggle.tsx",
+          "type": "CREATE",
+          "description": "다크모드 토글"
+        }
+      ],
+      "implementationGuide": "RelatedDocs relation 조회 후 상세 하단 표시 → next-themes ThemeProvider + 토글 → 모바일/태블릿 브레이크포인트 점검",
+      "verificationCriteria": "다크/라이트 전환이 전 페이지에 적용되고 모바일에서 레이아웃이 깨지지 않는다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "83a1e02e-aeb4-46e1-9568-cbac4629a69a",
+      "name": "[Phase 5] 성능 · SEO · 접근성 최적화 및 테스트",
+      "description": "성능·SEO·접근성을 최적화하고 테스트를 작성한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "773ccedb-838b-45c4-a082-ee4fa0f12d0f"
+        },
+        {
+          "taskId": "56b4b066-a888-4d8b-809e-08cc28ecf452"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/sitemap.ts",
+          "type": "CREATE",
+          "description": "사이트맵"
+        },
+        {
+          "path": "__tests__/",
+          "type": "CREATE",
+          "description": "단위 테스트"
+        }
+      ],
+      "implementationGuide": "next/image, 동적 import → 페이지별 metadata·OG, sitemap.ts, robots.ts → Jest로 mapper/조회 함수 단위 테스트 → Playwright로 홈→상세→검색 E2E",
+      "verificationCriteria": "Lighthouse Performance/SEO 90점 이상, 테스트 전부 통과",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    },
+    {
+      "id": "ef02cf29-49b7-4df9-8d5e-6f86940e62ea",
+      "name": "[Phase 5] Vercel 배포",
+      "description": "Vercel에 배포하고 main push 시 자동 배포되게 한다.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "83a1e02e-aeb4-46e1-9568-cbac4629a69a"
+        }
+      ],
+      "createdAt": "2026-10-19T12:52:06.227Z",
+      "updatedAt": "2026-10-19T12:52:06.227Z",
+      "relatedFiles": [
+        {
+          "path": "README.md",
+          "type": "TO_MODIFY",
+          "description": "배포 URL·환경 변수 안내"
+        }
+      ],
+      "implementationGuide": "Vercel 프로젝트 연결 → 환경 변수(NOTION_API_KEY, NOTION_DATABASE_ID) 등록 → 프로덕션 배포 → README에 배포 URL 기재",
+      "verificationCriteria": "프로덕션 URL에서 모든 페이지가 정상 동작한다",
+      "analysisResult": "ROADMAP.md의 골격 → 공통 → 개별 기능 순서를 따라 Next.js 15 + Notion CMS 기술 문서 포탈 MVP를 구현하고 Vercel에 배포한다."
+    }
+  ]
+}
