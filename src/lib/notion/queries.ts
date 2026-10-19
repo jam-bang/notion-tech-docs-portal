@@ -8,6 +8,7 @@ import { toDocSummary } from "./mapper";
 
 /**
  * 발행(Published)된 문서 전체를 최근 수정순으로 조회한다.
+ * (Status 속성이 select·status 어느 타입이어도 동작)
  * Notion 미설정 시 빈 배열을 반환해 빌드가 깨지지 않게 한다.
  */
 export const getPublishedDocs = cache(async (): Promise<DocSummary[]> => {
@@ -19,13 +20,15 @@ export const getPublishedDocs = cache(async (): Promise<DocSummary[]> => {
   do {
     const res = await notion.databases.query({
       database_id: getDatabaseId(),
-      filter: { property: "Status", select: { equals: "Published" } },
       sorts: [{ timestamp: "last_edited_time", direction: "descending" }],
       start_cursor: cursor,
       page_size: 100,
     });
     for (const page of res.results) {
-      if (isFullPage(page)) docs.push(toDocSummary(page));
+      if (!isFullPage(page)) continue;
+      const doc = toDocSummary(page);
+      // Status는 select/status 타입 모두 지원하기 위해 API 필터 대신 코드에서 거른다
+      if (doc.status === "Published") docs.push(doc);
     }
     cursor = res.has_more ? (res.next_cursor ?? undefined) : undefined;
   } while (cursor);

@@ -28,10 +28,12 @@ function dateOf(prop: Prop | undefined): string | null {
 
 function authorsOf(prop: Prop | undefined): Author[] {
   if (prop?.type !== "people") return [];
-  return prop.people.map((p) => ({
-    name: "name" in p && p.name ? p.name : "알 수 없음",
-    avatarUrl: "avatar_url" in p && p.avatar_url ? p.avatar_url : undefined,
-  }));
+  // 연결에 사용자 정보 읽기 권한이 없으면 이름이 비어 있으므로 제외한다
+  return prop.people.flatMap((p) =>
+    "name" in p && p.name
+      ? [{ name: p.name, avatarUrl: "avatar_url" in p && p.avatar_url ? p.avatar_url : undefined }]
+      : [],
+  );
 }
 
 /** 제목으로 slug 생성 (Slug 속성이 비어 있을 때 대비) */
