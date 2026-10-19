@@ -7,11 +7,10 @@ import { getDatabaseId, getNotionClient, isNotionConfigured } from "./client";
 import { toDocSummary } from "./mapper";
 
 /**
- * 발행(Published)된 문서 전체를 최근 수정순으로 조회한다.
- * (Status 속성이 select·status 어느 타입이어도 동작)
+ * 데이터베이스의 모든 문서를 상태와 무관하게 최근 수정순으로 조회한다. (관리자용)
  * Notion 미설정 시 빈 배열을 반환해 빌드가 깨지지 않게 한다.
  */
-export const getPublishedDocs = cache(async (): Promise<DocSummary[]> => {
+export const getAllDocs = cache(async (): Promise<DocSummary[]> => {
   if (!isNotionConfigured()) return [];
   const notion = getNotionClient();
   const docs: DocSummary[] = [];
@@ -25,15 +24,21 @@ export const getPublishedDocs = cache(async (): Promise<DocSummary[]> => {
       page_size: 100,
     });
     for (const page of res.results) {
-      if (!isFullPage(page)) continue;
-      const doc = toDocSummary(page);
-      // Status는 select/status 타입 모두 지원하기 위해 API 필터 대신 코드에서 거른다
-      if (doc.status === "Published") docs.push(doc);
+      if (isFullPage(page)) docs.push(toDocSummary(page));
     }
     cursor = res.has_more ? (res.next_cursor ?? undefined) : undefined;
   } while (cursor);
 
   return docs.sort((a, b) => (b.updatedDate ?? "").localeCompare(a.updatedDate ?? ""));
+});
+
+/**
+ * 발행(Published)된 문서만 조회한다.
+ * (Status 속성이 select·status 어느 타입이어도 동작하도록 코드에서 거른다)
+ */
+export const getPublishedDocs = cache(async (): Promise<DocSummary[]> => {
+  const docs = await getAllDocs();
+  return docs.filter((d) => d.status === "Published");
 });
 
 /** slug로 문서 1건 + 본문 마크다운 조회 */

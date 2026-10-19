@@ -21,6 +21,8 @@ export interface DocSummary {
   updatedDate: string | null;
   viewCount: number;
   relatedDocIds: string[];
+  /** Notion 원본 페이지 URL (관리자 편집 링크용) */
+  notionUrl: string;
 }
 
 /** 상세 페이지용 문서 (본문 마크다운 포함) */

@@ -66,5 +66,6 @@ export function toDocSummary(page: PageObjectResponse): DocSummary {
     updatedDate: dateOf(getProp(page, "UpdatedDate")) ?? page.last_edited_time,
     viewCount: viewProp?.type === "number" ? (viewProp.number ?? 0) : 0,
     relatedDocIds: relatedProp?.type === "relation" ? relatedProp.relation.map((r) => r.id) : [],
+    notionUrl: page.url,
   };
 }

@@ -1,7 +1,7 @@
 # 기술 문서 포탈 (Tech Docs Portal) - ROADMAP
 
 **Document Version**: 1.0
-**Last Updated**: 2026-10-19
+**Last Updated**: 2026-10-19 (v1.1)
 **기준 문서**: [docs/PRD.md](./PRD.md)
 
 > PRD는 **무엇을** 만들지, ROADMAP은 **어떤 순서로** 만들지를 정의합니다.
@@ -26,11 +26,11 @@
 ## Phase 1: 프로젝트 초기 설정 — 골격 구축 (1-2일)
 
 ### 작업
-- [ ] 기존 Starter Kit(NestJS) 코드 정리 — PRD 기술 스택(Next.js)에 맞게 프로젝트 재구성
-- [ ] Next.js 15 (App Router) + TypeScript 프로젝트 생성
-- [ ] Tailwind CSS, shadcn/ui, Lucide React 설정
-- [ ] ESLint, Prettier 설정 및 `npm run lint` / `npm run build` 통과
-- [ ] 폴더 구조 설계
+- [x] 기존 Starter Kit(NestJS) 코드 정리 — PRD 기술 스택(Next.js)에 맞게 프로젝트 재구성
+- [x] Next.js 15 (App Router) + TypeScript 프로젝트 생성
+- [x] Tailwind CSS, shadcn/ui, Lucide React 설정
+- [x] ESLint, Prettier 설정 및 `npm run lint` / `npm run build` 통과
+- [x] 폴더 구조 설계
   ```
   src/
   ├── app/            # 라우트 (/, /docs/[slug], /category/[name], /search)
@@ -38,8 +38,8 @@
   ├── lib/            # notion/, utils
   └── types/          # 공통 타입
   ```
-- [ ] 루트 레이아웃 (Header, Footer, 컨테이너) 뼈대
-- [ ] 환경 변수 템플릿 `.env.example` (`NOTION_API_KEY`, `NOTION_DATABASE_ID`)
+- [x] 루트 레이아웃 (Header, Footer, 컨테이너) 뼈대
+- [x] 환경 변수 템플릿 `.env.example` (`NOTION_API_KEY`, `NOTION_DATABASE_ID`)
 
 ### 왜 먼저인가?
 모든 페이지와 기능이 올라갈 **기반**입니다. 폴더 구조·스타일 시스템·빌드 설정이 흔들리면 이후 모든 작업을 다시 손봐야 합니다.
@@ -54,16 +54,16 @@
 ## Phase 2: 공통 모듈/컴포넌트 개발 (2-3일)
 
 ### 작업
-- [ ] **Notion API 공통 모듈** (`src/lib/notion/`)
+- [x] **Notion API 공통 모듈** (`src/lib/notion/`)
   - `client.ts` — `@notionhq/client` 인스턴스
   - `getPublishedDocs()` — Status=Published 문서 목록 조회
   - `getDocBySlug(slug)` — 단일 문서 + 본문 블록 조회
   - `getCategories()` — 카테고리 목록 및 문서 수
   - Notion 응답 → 도메인 타입 변환 함수 (mapper)
-- [ ] **공통 타입** (`src/types/`): `Doc`, `DocSummary`, `Category`, `Tag`, `Author`
-- [ ] **공통 UI 컴포넌트**: `DocCard`, `CategoryBadge`, `TagChip`, `MetaInfo`(작성자·버전·수정일), `EmptyState`, `Skeleton`
-- [ ] **캐싱 전략**: ISR `revalidate = 30` 공통 상수화
-- [ ] Notion 테스트 데이터베이스 생성 (PRD의 Documents 스키마) + 예제 문서 4건
+- [x] **공통 타입** (`src/types/`): `Doc`, `DocSummary`, `Category`, `Tag`, `Author`
+- [x] **공통 UI 컴포넌트**: `DocCard`, `CategoryBadge`, `TagChip`, `MetaInfo`(작성자·버전·수정일), `EmptyState`, `Skeleton`
+- [x] **캐싱 전략**: ISR `revalidate = 30` 공통 상수화
+- [x] Notion 테스트 데이터베이스 생성 (PRD의 Documents 스키마) + 예제 문서 4건
 
 ### 왜 이 순서인가?
 목록·상세·검색 등 **모든 기능이 같은 데이터 함수와 카드 컴포넌트를 재사용**합니다. 먼저 만들어 두면 기능마다 API 호출과 UI를 중복 작성하지 않아도 됩니다.
@@ -78,15 +78,15 @@
 ## Phase 3: 핵심 기능 개발 — MVP (3-4일)
 
 ### 작업
-- [ ] **홈** (`/`): 인기 카테고리 + 최근 업데이트 문서 6개
-- [ ] **문서 목록**: 최근 수정순 정렬, 페이지네이션
-- [ ] **문서 상세** (`/docs/[slug]`)
+- [x] **홈** (`/`): 인기 카테고리 + 최근 업데이트 문서 6개
+- [x] **문서 목록**: 최근 수정순 정렬, 페이지네이션
+- [x] **문서 상세** (`/docs/[slug]`)
   - Notion 블록 → 마크다운 렌더링 (react-markdown)
   - 코드 신택스 하이라이팅 (rehype-highlight)
   - 메타데이터 (카테고리 · 버전 · 작성자 · 수정일)
   - 목차(TOC) 자동 생성
-- [ ] **카테고리 페이지** (`/category/[name]`): 카테고리별 문서 목록 + 문서 수
-- [ ] 404 / 에러 / 로딩 상태 처리
+- [x] **카테고리 페이지** (`/category/[name]`): 카테고리별 문서 목록 + 문서 수
+- [x] 404 / 에러 / 로딩 상태 처리
 
 ### 왜 이 순서인가?
 "문서를 보고 찾아간다"는 포탈의 **본질 기능**입니다. Phase 2의 공통 모듈을 조합해 빠르게 만들 수 있고, 이것만으로 MVP로서 가치가 있습니다.
@@ -101,10 +101,10 @@
 ## Phase 4: 추가 기능 개발 (2-3일)
 
 ### 작업
-- [ ] **전체 검색** (`/search?q=`): 제목·요약·태그 클라이언트 사이드 검색
-- [ ] **태그 기반 다중 필터** + 버전 필터
-- [ ] **관련 문서 추천** (RelatedDocs Relation 활용)
-- [ ] **다크모드** (next-themes)
+- [x] **전체 검색** (`/search?q=`): 제목·요약·태그 클라이언트 사이드 검색
+- [x] **태그 기반 다중 필터** + 버전 필터
+- [x] **관련 문서 추천** (RelatedDocs Relation 활용)
+- [x] **다크모드** (next-themes)
 - [ ] 반응형 디자인 다듬기 (모바일 · 태블릿 · 데스크톱)
 
 ### 왜 이 순서인가?
@@ -124,7 +124,7 @@
 - [ ] SEO: 페이지별 `metadata`, Open Graph, `sitemap.xml`, `robots.txt`
 - [ ] 접근성 점검 (WCAG 2.1 기본 항목)
 - [ ] 테스트: 공통 모듈 단위 테스트(Jest), 주요 플로우 E2E(Playwright)
-- [ ] Vercel 배포 + 환경 변수 설정, main push 시 자동 배포
+- [x] Vercel 배포 + 환경 변수 설정, main push 시 자동 배포 → https://notion-tech-docs-portal.vercel.app
 
 ### 왜 이 순서인가?
 기능이 확정된 후에 최적화해야 **측정할 대상이 명확**하고, 중간에 바뀔 코드를 미리 최적화하는 낭비를 피할 수 있습니다.
@@ -135,6 +135,24 @@
 - Vercel 프로덕션 URL에서 모든 페이지가 정상 동작한다
 
 ---
+
+## 🏷️ 버전 기록
+
+| 버전 | 날짜 | 내용 |
+|------|------|------|
+| v1.0 (MVP) | 2026-10-19 | Phase 1~3 + 검색·필터·다크모드, Vercel 배포 |
+| v1.1 | 2026-10-19 | 관리자 문서 현황 대시보드 (`/admin`) |
+
+## 🚀 v1.1 — MVP 이후 기능 확장 (관리자)
+
+> 원칙: 지금 필요한 **최소 기능 하나**씩, 기능마다 별도 커밋 → 배포 → 확인
+
+- [x] **문서 현황 대시보드** `/admin` (읽기 전용)
+  - 상태별 문서 수(발행·초안·보관), 총 조회수
+  - 카테고리별 문서 수, 조회수 Top 5
+  - 최근 수정 문서 10건 + Notion 편집 링크
+  - 이유: 초안이 쌓이거나 특정 카테고리가 비는 것을 한눈에 확인하기 위해
+- [ ] 다음 후보: 관리자 접근 보호(Basic Auth), 초안 문서 미리보기
 
 ## 🔭 MVP 이후 (Backlog)
 
